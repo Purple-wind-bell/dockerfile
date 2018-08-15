@@ -8,7 +8,7 @@ RUN /tmp/go.sh
 
 FROM alpine:latest
 
-LABEL maintainer "1323246431@qq.com"
+LABEL maintainer "zfl <1323246431@qq.com>"
 
 COPY --from=builder /usr/bin/v2ray/v2ray /usr/bin/v2ray/
 COPY --from=builder /usr/bin/v2ray/v2ctl /usr/bin/v2ray/
