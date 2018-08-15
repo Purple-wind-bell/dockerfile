@@ -4,35 +4,31 @@
 
 > 截至目前该镜像为 v2ray 最新版本
 
-### 打开姿势
+### 安装
+  docker pull wj1323246431/v2ray
+  docker run -d --name v2ray -p 8888:10000 wj1323246431/v2ray
+  
+注意： config.json文件本文件夹目录下。
 
 ``` sh
 
 ```
 
-**Container 默认监听 10000 端口**
-**v2ray 默认 ID 为 `23ad6b10-8d1a-40f7-8ad0-e3e35cd38297`(不保证后期变动)**
+**Container 内部默认监听 10000 端口**
+**v2ray 默认 ID 为 `89be7f2e-138b-4343-9823-b57ae12ab90d`(不保证后期变动)**
 
 ### 自定义配置
 
-**镜像支持写入自定义的 v2ray 配置，挂载覆盖 `/etc/v2ray/config.json` 或使用 `-c` 选项并跟上 JSON 字符串即可，如下所示**
+**镜像支持写入自定义的 v2ray 配置，挂载覆盖 `/etc/v2ray/config.json` ，例如：
 
-``` sh
-docker run -dt --name v2ray mritd/v2ray -c "{\"log\" : {     \"access\": \"/var/log/v2ray/access.log\",     \"error\": \"/var/log/v2ray/error.log\",     \"loglevel\": \"warning\"   },   \"inbound\": {     \"port\": 4500,     \"protocol\": \"vmess\",     \"settings\": {       \"clients\": [         {           \"id\": \"23ad6b10-8d1a-40f7-8ad0-e3e35cd38297\",           \"level\": 1,           \"alterId\": 64         }       ]     }   },   \"outbound\": {     \"protocol\": \"freedom\",     \"settings\": {}   },   \"outboundDetour\": [     {       \"protocol\": \"blackhole\",       \"settings\": {},       \"tag\": \"blocked\"     }   ], \"routing\": {     \"strategy\": \"rules\",     \"settings\": {       \"rules\": [         {           \"type\": \"field\",           \"ip\": [             \"0.0.0.0/8\",             \"10.0.0.0/8\",             \"100.64.0.0/10\",             \"127.0.0.0/8\",             \"169.254.0.0/16\",             \"172.16.0.0/12\",             \"192.0.0.0/24\",             \"192.0.2.0/24\",             \"192.168.0.0/16\",             \"198.18.0.0/15\",             \"198.51.100.0/24\",             \"203.0.113.0/24\",             \"::1/128\",             \"fc00::/7\",             \"fe80::/10\"           ],           \"outboundTag\": \"blocked\"         }       ]     }   },   \"transport\": {     \"kcpSettings\": {       \"uplinkCapacity\": 10,       \"downlinkCapacity\": 10     }   } }"
-```
+docker run -d --name v2ray -p 8888:10000 -v /etc/v2ray:/etc/v2ray wj1323246431/v2ray
 
-**`-c` 选项后面的参数就是改好的配置文件中的 JSON 字符串**
-**实际上对于怎么处理那个 JSON 中引号懵逼的朋友可以借助 JSON
-在线转换工具 [http://www.bejson.com/zhuanyi/](http://www.bejson.com/zhuanyi/) 完成 JSON 字符串转换**
-**也就是说先改好配置，然后将 JSON 复制到上面的网站，选择压缩并转义转换一下，
-最后将压缩并转义后的内容拼接在 `-c` 选项后即可**
-**注意: 网站转换完的两边没有双引号，也就是说要 `-c "粘贴压缩并转义后的内容"`**
+其中，1--- -v /etc/v2ray:/etc/v2ray 表示外部文件夹映射容器内部文件夹，可在创建容器前将配置文件放置于/etc/v2ray目录下，文件名为config.json.
+2--- -p 8888:10000 表示主机8888端口绑定容器10000端口，10000端口在config.json文件中设置。
+3--- 如果使用nginx代理，需要将端口映射设置为-p 127.0.0.1:8888:10000,nginx流量转发到127.0.0.1:8888.
 
 ### 样例配置
 
 **镜像使用官方的样例配置，来源于官方发布包，可执行以下命令获取样例配置**
 **具体修改设置请参考 [官方文档配置部分](https://www.v2ray.com/chapter_02/)**
 
-``` sh
-docker run --rm mritd/v2ray "cat /etc/v2ray/config.json" > config.json
-```
