@@ -2,16 +2,15 @@
 
 [![](https://images.microbadger.com/badges/version/mritd/v2ray.svg)](https://microbadger.com/images/mritd/v2ray "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/mritd/v2ray.svg)](https://microbadger.com/images/mritd/v2ray "Get your own image badge on microbadger.com")
 
-> 截至目前该镜像为 v2ray 3.29 版本
+> 截至目前该镜像为 v2ray 最新版本
 
 ### 打开姿势
 
 ``` sh
-docker pull mritd/v2ray
-docker run -dt --name v2ray -p 10086:10086 mritd/v2ray
+
 ```
 
-**Container 默认监听 10086 端口**
+**Container 默认监听 10000 端口**
 **v2ray 默认 ID 为 `23ad6b10-8d1a-40f7-8ad0-e3e35cd38297`(不保证后期变动)**
 
 ### 自定义配置
